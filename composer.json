@@ -1,0 +1,22 @@
+{
+    "name": "leadhub/plugin-wordpress",
+    "description": "Plugin WordPress que usa Composer para gerenciar dependências",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "StudyMaps",
+            "email": "contato@studymaps.com.br"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/",
+            "Src\\Admin\\": "src/admin/",
+            "Inc\\": "inc/",
+            "Inc\\LibMautic\\": "inc/libMautic/"
+            
+        }
+     
+    }
+}

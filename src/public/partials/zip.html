@@ -1,0 +1,77 @@
+<h3>Image Compression Process (.zip)</h3>
+
+<p>1 - The .zip file generation process occurs under the following conditions:</p>
+
+<ul>
+    <li>1.1 - The <a href='https://wordpress.org/documentation/article/what-is-post-type/'>Post Type</a> must be equal to 'posts'</li>
+    <li>1.2 - The post status (post type = posts) is published</li>
+    <li>1.3 - The post status (post type = posts) is currently 'draft', but this post has already been published</li>
+    <li>1.4 - The post status (post type = posts) changes from scheduled to published</li>
+    <li>1.5 - A post (post type = posts) is updated</li>
+</ul>
+
+<p>2 - If condition 1.1 is met, and any of the conditions 1.2, 1.3, 1.4, or 1.5 are also met, then the following process occurs:</p>
+
+<ul>
+    <li>2.1 - Check if the .zip file already exists in the folder or subfolders at ./wp-content/zips/
+        <ul>
+            <li>2.1.1 - If the file exists, delete the file and proceed to step 2.2</li>
+            <li>2.1.2 - If the file does not exist, proceed to step 2.2</li>
+        </ul>
+    </li>
+
+    <li>2.2 - Check if the path ./wp-content/zips/ has subfolders
+        <ul>
+            <li>2.2.1 - If it has subfolders
+                <ul>
+                    <li>2.2.1.1 - Count the number of files in the last folder</li>
+                    <li>2.2.1.2 - Check if the subfolder with the highest number is <= 100 files
+                        <ul>
+                            <li>2.2.1.1.1 - If >= 100 files, go to step 3</li>
+                            <li>2.2.1.1.2 - If < 100 files, go to step 4</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            
+            <li>2.2.2 - If it does not have subfolders
+                <ul>
+                    <li>2.2.2.1 - Create an enumerated subfolder, starting with 00001</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+</ul>
+
+<p>3 - Procedure when the last folder (enumerated) contains >= 100 files</p>
+
+<ul>
+    <li>3.1 - Create a new folder, following the numbering of the previous folder + 1</li>
+    <li>3.2 - Proceed to step 4</li>
+</ul>
+
+
+<p>4 - Procedure when the last folder (enumerated) contains <100 files</p>
+
+<ul>
+    <li>4.1 - List all images from the post being published</li>
+    <li>4.2 - Compress these images, generating a .zip file</li>
+    <li>4.3 - Save the .zip file in the last created folder, with the file name = wp_posts.postname</li>
+    <li>4.4 - Start step 5 (Mautic process)</li>
+</ul>
+
+<p>5 - Mautic Form Process</p>
+
+<ul>
+
+    <li>5.1 - Check if it is possible to establish an API connection with Mautic
+        <ul>
+            <li>5.1.1 - If the connection is working, proceed to step 5.2</li>
+            <li>5.1.2 - If the connection fails, send an email to the administrator</li>
+        </ul>
+    </li>
+            
+    <li>5.2 - Execute the API connection and exchange information</li>
+
+</ul>
