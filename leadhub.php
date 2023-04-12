@@ -14,50 +14,56 @@
  */
 
 // If this file is called directly, abort.
- if (!defined('WPINC')) {
-     die;
- }
- 
- define('LEADHUB_VERSION', '1.0.0');
+if (!defined('WPINC')) {
+    die;
+}
 
- add_filter('nonce_life', function() {
-    return 86400; // 24 horas em segundos
+define('LEADHUB_VERSION', '1.0.0');
+
+add_filter('nonce_life', function() {
+   return 86400; // 24 horas em segundos
 });
- 
- $autoload_file = dirname(__FILE__) . '/vendor/autoload.php';
-  if (file_exists($autoload_file)) {
-     require_once $autoload_file;
- } else {
-     die("Autoload file not found: $autoload_file");
- }
- 
- use Src\ClassLeadhubActivator;
- use Src\ClassLeadhubDeactivator;
- use Src\ClassLeadhub;
- 
- function activate_leadhub()
- {
-     ClassLeadHubActivator::activate();
- }
- 
- function deactivate_leadhub()
- {
-     ClassLeadhubDeactivator::deactivate();
- }
- 
- register_activation_hook(__FILE__, 'activate_leadhub');
- register_deactivation_hook(__FILE__, 'deactivate_leadhub');
- 
- function run_leadhub()
- {
-     $plugin = new ClassLeadhub();
-     $plugin->run();
- }
- 
- run_leadhub();
- 
- // Hooks para processamento dos arquivos .zip
- add_action('save_post', 'process_post_images_zip');
- add_action('post_updated', 'process_post_images_zip');
- 
- ?>
+
+$autoload_file = dirname(__FILE__) . '/vendor/autoload.php';
+if (file_exists($autoload_file)) {
+    require_once $autoload_file;
+} else {
+    die("Autoload file not found: $autoload_file");
+}
+
+use Src\ClassLeadhubActivator;
+use Src\ClassLeadhubDeactivator;
+use Src\ClassLeadhub;
+
+$leadhubMauticSettings = new Src\Admin\Partials\LeadhubMauticSettings();
+
+function activate_leadhub()
+{
+    ClassLeadHubActivator::activate();
+}
+
+function deactivate_leadhub()
+{
+    ClassLeadhubDeactivator::deactivate();
+}
+
+register_activation_hook(__FILE__, 'activate_leadhub');
+register_deactivation_hook(__FILE__, 'deactivate_leadhub');
+
+// Hooks para a conexão API com o Mautic
+add_action('wp_ajax_test_api_connection', array($leadhubMauticSettings, 'test_api_connection'));
+
+function run_leadhub()
+{
+    $plugin = new ClassLeadhub();
+    $plugin->run();
+}
+
+run_leadhub();
+
+// Hooks para processamento dos arquivos .zip
+add_action('save_post', 'process_post_images_zip');
+add_action('post_updated', 'process_post_images_zip');
+
+
+?>

@@ -9,32 +9,27 @@ class ComposerStaticInitc0a40d7a2df148db3ffe55809fd401d2
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Src\\Admin\\' => 10,
             'Src\\' => 4,
         ),
-        'I' => 
+        'L' => 
         array (
-            'Inc\\LibMautic\\' => 14,
-            'Inc\\' => 4,
+            'Lib\\Auth\\' => 9,
+            'Lib\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Src\\Admin\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/admin',
-        ),
         'Src\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'Inc\\LibMautic\\' => 
+        'Lib\\Auth\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/inc/libMautic',
+            0 => __DIR__ . '/../..' . '/lib/auth',
         ),
-        'Inc\\' => 
+        'Lib\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/inc',
+            0 => __DIR__ . '/../..' . '/lib',
         ),
     );
 

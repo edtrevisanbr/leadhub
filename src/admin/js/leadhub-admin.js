@@ -1,32 +1,42 @@
-(function( $ ) {
-	'use strict';
+function logDebug(message) {
+    if (typeof console !== "undefined" && console.debug) {
+        console.debug("Leadhub Debug:", message);
+    }
+}
 
-	/**
-	 * All of the code for your admin-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+jQuery(document).ready(function ($) {
+    logDebug("Document ready");
+    $("#test_api_connection").click(function () {
+        logDebug("Button clicked");
 
-})( jQuery );
+        var baseUrl = $("input[name='leadhub_mautic_base_url']").val();
+        var publicKey = $("input[name='leadhub_mautic_public_key']").val();
+        var secretKey = $("input[name='leadhub_mautic_secret_key']").val();
+
+        logDebug("Values: " + baseUrl + ", " + publicKey + ", " + secretKey);
+
+        if (baseUrl && publicKey && secretKey) {
+            logDebug("Sending AJAX request");
+            $.post(
+                ajaxurl,
+                {
+                    action: "test_api_connection",
+                    baseUrl: baseUrl,
+                    publicKey: publicKey,
+                    secretKey: secretKey,
+                },
+                function (response) {
+                    logDebug("AJAX response received");
+                    logDebug(response);
+                    if (response.success) {
+                        alert(response.data.message);
+                    } else {
+                        alert(response.data.message);
+                    }
+                }
+            );
+        } else {
+            alert("Por favor, preencha todos os campos necessários antes de testar a conexão com a API.");
+        }
+    });
+});

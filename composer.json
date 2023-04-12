@@ -12,10 +12,8 @@
     "autoload": {
         "psr-4": {
             "Src\\": "src/",
-            "Src\\Admin\\": "src/admin/",
-            "Inc\\": "inc/",
-            "Inc\\LibMautic\\": "inc/libMautic/"
-            
+            "Lib\\": "lib/",
+            "Lib\\Auth\\": "lib/auth"
         }
      
     }

@@ -6,8 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Src\\Admin\\' => array($baseDir . '/src/admin'),
     'Src\\' => array($baseDir . '/src'),
-    'Inc\\LibMautic\\' => array($baseDir . '/inc/libMautic'),
-    'Inc\\' => array($baseDir . '/inc'),
+    'Lib\\Auth\\' => array($baseDir . '/lib/auth'),
+    'Lib\\' => array($baseDir . '/lib'),
 );
