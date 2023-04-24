@@ -160,16 +160,16 @@ class LeadhubZipService{
                     $zip_created = $this->create_zip($images, $zip_filepath);
 
                 // Verifique se este post já tem um sufixo aleatório armazenado no banco de dados
-                $random_suffix = $this->get_random_suffix($post_id);
+                $wp_file_key = $this->get_wp_file_key($post_id);
 
                 // Se não houver sufixo aleatório, gere um novo e armazene-o no banco de dados
-                if (!$random_suffix) {
-                    $random_suffix = $this->generate_random_suffix();
-                    $this->store_random_suffix($post_id, $random_suffix);
+                if (!$wp_file_key) {
+                    $wp_file_key = $this->generate_wp_file_key();
+                    $this->store_wp_file_key($post_id, $wp_file_key);
                 }
 
                 // Adicione o sufixo aleatório ao nome do arquivo ZIP
-                $zip_filename = $post->post_name . '_' . $random_suffix . '.zip';
+                $zip_filename = $post->post_name . '_' . $wp_file_key . '.zip';
 
                 // Altere a linha onde o arquivo ZIP é criado para usar $zip_filename
                 $zip_filepath = $last_folder . '/' . $zip_filename;
@@ -177,8 +177,8 @@ class LeadhubZipService{
                 
 
                 if ($zip_created) {
-                    $zip_file_url_with_name = $zip_file_url . '/' . $zip_filename . '_' . $random_suffix . '.zip';
-                    $this->store_zip_data($post_id, $zip_file_url_with_name, $random_suffix);
+                    $zip_file_url_with_name = $zip_file_url . '/' . $zip_filename . '_' . $wp_file_key . '.zip';
+                    $this->store_zip_data($post_id, $zip_file_url_with_name, $wp_file_key);
                 }
                 
                 }
@@ -186,28 +186,28 @@ class LeadhubZipService{
             }
         }
 
-    private function generate_random_suffix() {
+    private function generate_wp_file_key() {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $random_suffix = '';
+        $wp_file_key = '';
         for ($i = 0; $i < 5; $i++) {
-            $random_suffix .= $characters[rand(0, strlen($characters) - 1)];
+            $wp_file_key .= $characters[rand(0, strlen($characters) - 1)];
         }
-        return $random_suffix;
+        return $wp_file_key;
     }
     
-    private function get_random_suffix($post_id) {
+    private function get_wp_file_key($post_id) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'leadhub_mautic_emails';
-        $random_suffix = $wpdb->get_var($wpdb->prepare("SELECT wp_random_suffix FROM $table_name WHERE wp_post_id = %d", $post_id));
-        return $random_suffix;
+        $wp_file_key = $wpdb->get_var($wpdb->prepare("SELECT wp_wp_file_key FROM $table_name WHERE wp_post_id = %d", $post_id));
+        return $wp_file_key;
     }
     
-    private function store_random_suffix($post_id, $random_suffix) {
+    private function store_wp_file_key($post_id, $wp_file_key) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'leadhub_mautic_emails';
         $wpdb->update(
             $table_name,
-            array('wp_random_suffix' => $random_suffix),
+            array('wp_wp_file_key' => $wp_file_key),
             array('wp_post_id' => $post_id),
             array('%s'),
             array('%d')
@@ -282,7 +282,7 @@ class LeadhubZipService{
         }
     }
 
-    private function store_zip_data($post_id, $zip_file_path, $random_suffix)
+    private function store_zip_data($post_id, $zip_file_path, $wp_file_key)
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'leadhub_mautic_emails';
@@ -291,21 +291,21 @@ class LeadhubZipService{
         $existing_entry = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE wp_post_id = %d", $post_id));
     
         if (!$existing_entry) {
-            // Insert a new row with the post_id, zip_file_path, and random_suffix
+            // Insert a new row with the post_id, zip_file_path, and wp_file_key
             $wpdb->insert(
                 $table_name,
                 array(
                     'wp_post_id' => $post_id,
                     'wp_attached_file_path' => $zip_file_path,
-                    'random_suffix' => $random_suffix
+                    'wp_file_key' => $wp_file_key
                 ),
                 array('%d', '%s', '%s')
             );
         } else {
-            // Update the existing row with the new zip_file_path and keep the same random_suffix
+            // Update the existing row with the new zip_file_path and keep the same wp_file_key
             $wpdb->update(
                 $table_name,
-                array('wp_attached_file_path' => $zip_file_path, 'random_suffix' => $random_suffix),
+                array('wp_attached_file_path' => $zip_file_path, 'wp_file_key' => $wp_file_key),
                 array('wp_post_id' => $post_id),
                 array('%s', '%s'),
                 array('%d')
