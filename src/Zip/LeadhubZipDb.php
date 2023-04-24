@@ -17,14 +17,14 @@ class LeadhubZipDb{
 
             $sql = "CREATE TABLE $table_name (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                {$wpdb->prefix}post_id INT NOT NULL,
-                {$wpdb->prefix}email_id INT,
-                {$wpdb->prefix}sender_id INT,
-                {$wpdb->prefix}category_id INT,
-                {$wpdb->prefix}attached_file_path VARCHAR(255),
+                wp_post_id INT NOT NULL,
+                wp_email_id INT,
+                wp_sender_id INT,
+                wp_category_id INT,
+                wp_attached_file_key VARCHAR(5) NULL,
+                wp_attached_file_path VARCHAR(255),
                 mautic_email_id INT,
-                {$wpdb->prefix}attached_file_key VARCHAR(5) NULL,
-                UNIQUE KEY ({$wpdb->prefix}post_id)
+                UNIQUE KEY (wp_post_id)
             ) $charset_collate;";
 
             require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
