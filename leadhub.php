@@ -20,10 +20,6 @@ if (!defined('WPINC')) {
 
 define('LEADHUB_VERSION', '1.0.0');
 
-add_filter('nonce_life', function() {
-   return 86400; // 24 horas em segundos
-});
-
 $autoload_file = dirname(__FILE__) . '/vendor/autoload.php';
 if (file_exists($autoload_file)) {
     require_once $autoload_file;
@@ -34,8 +30,7 @@ if (file_exists($autoload_file)) {
 use Src\ClassLeadhubActivator;
 use Src\ClassLeadhubDeactivator;
 use Src\ClassLeadhub;
-
-$leadhubMauticSettings = new Src\Admin\Partials\LeadhubMauticSettings();
+use Src\Zip\LeadhubZipService;
 
 function activate_leadhub()
 {
@@ -50,8 +45,6 @@ function deactivate_leadhub()
 register_activation_hook(__FILE__, 'activate_leadhub');
 register_deactivation_hook(__FILE__, 'deactivate_leadhub');
 
-// Hooks para a conexão API com o Mautic
-add_action('wp_ajax_test_api_connection', array($leadhubMauticSettings, 'test_api_connection'));
 
 function run_leadhub()
 {
@@ -62,8 +55,19 @@ function run_leadhub()
 run_leadhub();
 
 // Hooks para processamento dos arquivos .zip
-add_action('save_post', 'process_post_images_zip');
-add_action('post_updated', 'process_post_images_zip');
+$leadhubZipService = new LeadhubZipService();
+
+add_filter('wp_insert_post_data', array($leadhubZipService, 'filter_post_data'), 10, 2);
+add_action('post_updated', array($leadhubZipService, 'process_post_images_zip'));
+add_action('save_post', array($leadhubZipService, 'remove_default_category'), 20);
+
+
+////// Testar logs de salvamento ou atualização de posts
+function leadhub_save_post_log($post_id) {
+    error_log('save_post hook triggered for post ID: ' . $post_id);
+}
+add_action('save_post', 'leadhub_save_post_log');
+
 
 
 ?>

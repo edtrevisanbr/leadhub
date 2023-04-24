@@ -11,23 +11,26 @@ class ComposerStaticInitc0a40d7a2df148db3ffe55809fd401d2
         array (
             'Src\\' => 4,
         ),
-        'L' => 
+        'P' => 
         array (
-            'Lib\\Auth\\' => 9,
-            'Lib\\' => 4,
+            'Psr\\Log\\' => 8,
+        ),
+        'M' => 
+        array (
+            'Mautic\\' => 7,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Src\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src',
+            0 => __DIR__ . '/../..' . '/Src',
         ),
-        'Lib\\Auth\\' => 
+        'Psr\\Log\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/lib/auth',
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Lib\\' => 
+        'Mautic\\' => 
         array (
             0 => __DIR__ . '/../..' . '/lib',
         ),

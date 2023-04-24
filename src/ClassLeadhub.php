@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Src\ClassLeadhubLoader;
 use Src\ClassLeadhubi18n;
 use Src\Admin\ClassLeadhubAdmin;
-use Src\Public\ClassLeadhubPublic;
+
 
 
 class ClassLeadhub {
@@ -28,7 +28,6 @@ class ClassLeadhub {
         $this->load_dependencies();
         $this->set_locale();
         $this->define_admin_hooks();
-        $this->define_public_hooks();
     }
 
     private function load_dependencies() {
@@ -41,6 +40,7 @@ class ClassLeadhub {
     private function set_locale() {
         $plugin_i18n = new ClassLeadhubi18n();
         $this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+        
     }
 
     private function define_admin_hooks() {
@@ -48,12 +48,6 @@ class ClassLeadhub {
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
         $this->loader->add_action( 'admin_menu', $plugin_admin, 'leadhub_menu' );
-    }
-
-    private function define_public_hooks() {
-        $plugin_public = new ClassLeadhubPublic( $this->get_plugin_name(), $this->get_version() );
-        $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-        $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
     }
 
     public function run() {
@@ -72,4 +66,3 @@ class ClassLeadhub {
         return $this->version;
     }
 }
-?>

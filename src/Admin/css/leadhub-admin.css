@@ -1,0 +1,47 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+.wrap-leadhub-settings {
+    padding: 10px;
+}
+
+.leadhub-section {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+.leadhub-section--separator {
+    display: block;
+    margin: 20px 0 20px 0;
+    margin-bottom: 10px;
+    height: 3px;
+    background-color: #d2d2d2;
+    width: 60%;
+    text-align: left;
+}
+.leadhub-label {
+    flex-basis: 25%;
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+}
+.leadhub-input input[type=text] {
+    flex-basis: 100%;
+    width: 250%;
+    display: flex;
+    align-items: left;
+}
+.leadhub-input input[type="text"],
+.leadhub-input input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+#adminmenu .toplevel_page_leadhub .wp-menu-image:before,
+#adminmenu #menu-posts-leadhub_senders .wp-menu-image:before,
+#adminmenu #menu-posts-leadhub_emails .wp-menu-image:before
+{
+    color: #AA66CC;
+}
+

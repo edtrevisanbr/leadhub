@@ -9,12 +9,16 @@
             "email": "contato@studymaps.com.br"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Src\\": "src/",
-            "Lib\\": "lib/",
-            "Lib\\Auth\\": "lib/auth"
+        "require": {
+            "psr/log": "^1.1"
+        },
+
+        "autoload": {
+            "psr-4": {
+                "Mautic\\": "lib/",
+                "Src\\": "Src/"
+            }
         }
-     
-    }
+    
+    
 }
